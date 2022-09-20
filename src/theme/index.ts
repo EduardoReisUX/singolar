@@ -24,4 +24,17 @@ export const theme: DefaultTheme = {
     sm: "0.875rem",
     xs: "0.75rem",
   },
+  fontWeight: {
+    normal: "normal",
+    bold: "bold",
+  },
+  lineHeight: {
+    logo: "2.25rem",
+    "2xl": "1.5rem",
+    xl: "1.25rem",
+    lg: "1.125rem",
+    base: "1rem",
+    sm: "0.875rem",
+    xs: "0.75rem",
+  },
 }

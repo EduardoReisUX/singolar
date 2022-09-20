@@ -27,5 +27,18 @@ declare module "styled-components" {
       sm: string
       xs: string
     }
+    fontWeight: {
+      normal: string
+      bold: string
+    }
+    lineHeight: {
+      logo: string
+      "2xl": string
+      xl: string
+      lg: string
+      base: string
+      sm: string
+      xs: string
+    }
   }
 }
