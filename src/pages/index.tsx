@@ -1,8 +1,6 @@
 import type { GetStaticProps } from "next"
 import Head from "next/head"
-import { MainContainer } from "../components/atoms/Container"
-import { Footer } from "../components/molecules/Footer"
-import { Header } from "../components/molecules/Header"
+import { HomeTemplate } from "../components/templates/HomeTemplate"
 
 type TPostResponseData = {
   userId: number
@@ -17,10 +15,6 @@ type TUsersResponseData = {
   username: string
   email: string
 }[]
-
-type THomeProps = {
-  data: TPostResponseData
-}
 
 type Props = {
   data: {
@@ -43,23 +37,7 @@ export default function Home({ data }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
-      <MainContainer style={{ display: "grid", gap: "1rem" }}>
-        <h2>Todas as publicações</h2>
-        {data.map(({ title, id, isPremium, name, post_date, reading_time }) => (
-          <a key={id} href={`/post?id=${id}`}>
-            <small>{name}</small>
-            <br />
-            <strong>{title}</strong>
-            <br />
-            <p>
-              {post_date.slice(0, 10)} • {reading_time}
-              {isPremium && " • ⭐"}
-            </p>
-          </a>
-        ))}
-      </MainContainer>
-      <Footer />
+      <HomeTemplate data={data} />
     </>
   )
 }

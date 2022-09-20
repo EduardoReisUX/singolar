@@ -13,6 +13,8 @@ export const HeaderContainer = styled.header`
 
 export const MainContainer = styled.main`
   ${ContainerCss}
+  display: grid;
+  gap: 1.5rem;
 `
 
 export const FooterContainer = styled.footer`
