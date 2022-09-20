@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header`
   ${ContainerCss}
 `
 
-export const BodyContainer = styled.main`
+export const MainContainer = styled.main`
   ${ContainerCss}
 `
 
