@@ -16,7 +16,7 @@ export function PostCard(data: PostCard) {
   const { id, isPremium, name, post_date, reading_time, title } = data
 
   return (
-    <PostCardContainer key={id} href={`/post?id=${id}`}>
+    <PostCardContainer key={id} href={`/posts/${id}`}>
       <Text as="small">{name}</Text>
       <Text as="strong">{title}</Text>
       <Text as="time">

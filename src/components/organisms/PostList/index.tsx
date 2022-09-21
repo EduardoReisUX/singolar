@@ -17,7 +17,7 @@ export function PostList({ data }: PostListProps) {
   return (
     <>
       {data.map((data) => (
-        <PostCard {...data} />
+        <PostCard key={data.id} {...data} />
       ))}
     </>
   )
