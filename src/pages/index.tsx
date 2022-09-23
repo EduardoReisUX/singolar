@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async () => {
       if (user.userId === post.userId) {
         usersAndPost.push({
           ...post,
-          post_date: String(new Date()),
+          post_date: String(new Date()).slice(4, 10),
           isPremium: Math.random() > 0.5,
           reading_time: "2 min read",
           ...user,

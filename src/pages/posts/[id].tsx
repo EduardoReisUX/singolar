@@ -10,12 +10,40 @@ interface IPostResponseData {
   body: string
 }
 
+interface IUserResponseData {
+  id: number
+  name: string
+  username: string
+  email: string
+}
+
+interface IPostCommentsResponseData {
+  postId: number
+  id: number
+  name: string
+  email: string
+  body: string
+}
+
+interface IFormattedPostComments {
+  id: number
+  name: string
+  email: string
+  body: string
+}
+
+interface IFormattedPost extends IPostResponseData {
+  post_date: string
+  isPremium: boolean
+  reading_time: string
+}
+
 type Props = {
   data: {
-    userId: string
-    id: string
-    title: string
-    body: string
+    post: IFormattedPost
+    userPosts: IFormattedPost[]
+    user: Pick<IUserResponseData, "id" | "name">
+    comments: IFormattedPostComments[]
   }
 }
 
@@ -27,7 +55,7 @@ export default function Post({ data }: Props) {
   return (
     <>
       <Head>
-        <title>{data.title} | Singolar</title>
+        <title>{data.post.title} | Singolar</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -38,7 +66,12 @@ export default function Post({ data }: Props) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [{ params: { id: "1" } }],
+    paths: [
+      { params: { id: "1" } },
+      { params: { id: "21" } },
+      { params: { id: "31" } },
+      { params: { id: "41" } },
+    ],
     fallback: "blocking",
   }
 }
@@ -48,19 +81,62 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({
 }) => {
   const { id } = params!
 
-  const postsData: IPostResponseData = await (
+  const post: IPostResponseData = await (
     await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
   ).json()
 
-  console.log()
-
-  const formattedData = {
-    ...postsData,
-    id: String(postsData.id),
-    userId: String(postsData.userId),
+  const formattedPost: IFormattedPost = {
+    ...post,
+    post_date: String(new Date()).slice(4, 10),
+    isPremium: Math.random() > 0.5,
+    reading_time: "2 min read",
   }
 
+  const userPosts: IPostResponseData[] = await (
+    await fetch(
+      `https://jsonplaceholder.typicode.com/posts/?userId=${post.userId}`
+    )
+  ).json()
+
+  const formattedUserPosts: IFormattedPost[] = userPosts.map((post) => ({
+    ...post,
+    post_date: String(new Date()).slice(4, 10),
+    isPremium: Math.random() > 0.5,
+    reading_time: "2 min read",
+  }))
+
+  const userData: IUserResponseData = await (
+    await fetch(`https://jsonplaceholder.typicode.com/users/${post.userId}`)
+  ).json()
+
+  const formattedUserData: Pick<IUserResponseData, "id" | "name"> = {
+    id: userData.id,
+    name: userData.name,
+  }
+
+  const commentsData: IPostCommentsResponseData[] = await (
+    await fetch(
+      `https://jsonplaceholder.typicode.com/comments/?postId=${post.id}`
+    )
+  ).json()
+
+  const formattedComments: IFormattedPostComments[] = commentsData.map(
+    (comment) => ({
+      id: comment.id,
+      name: comment.name,
+      email: comment.email,
+      body: comment.body,
+    })
+  )
+
   return {
-    props: { data: formattedData },
+    props: {
+      data: {
+        post: formattedPost,
+        userPosts: formattedUserPosts,
+        user: formattedUserData,
+        comments: formattedComments,
+      },
+    },
   }
 }
