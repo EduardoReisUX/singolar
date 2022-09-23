@@ -1,3 +1,5 @@
+export {}
+
 const users = [
   "Leanne Graham",
   "Ervin Howell",
