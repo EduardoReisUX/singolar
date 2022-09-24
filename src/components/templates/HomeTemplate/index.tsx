@@ -26,7 +26,7 @@ export function HomeTemplate({ data }: HomeProps): JSX.Element {
         <Text as="h2" fontSize="lg" lineHeight="lg">
           Todas as publicações
         </Text>
-        <PostList data={data} />
+        <PostList posts={data} />
       </MainContainer>
 
       <Footer />

@@ -1,8 +1,11 @@
 import { MainContainer } from "../../atoms/Container"
-import { Link } from "../../atoms/Link"
 import { Text } from "../../atoms/Text"
 import { Footer } from "../../molecules/Footer"
 import { Header } from "../../molecules/Header"
+import { PostDetails } from "../../molecules/PostDetails"
+import { Section } from "../../molecules/Section"
+import { CommentList } from "../../organisms/CommentList"
+import { MoreFromAuthor } from "../../organisms/MoreFromAuthor"
 import { PostList } from "../../organisms/PostList"
 
 type PostProps = {
@@ -44,73 +47,15 @@ export function PostTemplate({ data }: PostProps): JSX.Element {
       <Header />
 
       <MainContainer>
-        {/* Post Details */}
-        <div style={{ display: "grid", gap: "2rem", marginBottom: "3rem" }}>
-          {/* Post title and info */}
-          <div style={{ display: "grid", gap: "1rem" }}>
-            <Text as="h2" variant="lg" capitalizeFirstLetter>
-              {data.post.title}
-            </Text>
+        <PostDetails post={data.post} user={data.user} />
 
-            {/* Post info */}
-            <div
-              style={{
-                display: "flex",
-                flex: "1 1 0%",
-                justifyContent: "space-between",
-              }}
-            >
-              <Link linkColor underlineOnHover href={`/users/${data.user.id}`}>
-                {data.user.name}
-              </Link>
-              <Text as="time" color="gray">
-                {data.post.post_date} • {data.post.reading_time}{" "}
-                {data.post.isPremium && "• ⭐"}
-              </Text>
-            </div>
-          </div>
+        <Section title={`Mais de ${data.user.name}`}>
+          <PostList posts={data.userPosts} />
+        </Section>
 
-          {/* Post content */}
-          <Text font="serif" variant="base">
-            {data.post.body}
-          </Text>
-        </div>
-
-        {/* More from author */}
-        <section
-          style={{ display: "grid", gap: "1rem", marginBottom: ".75rem" }}
-        >
-          <Text as="h4" variant="lg">
-            Mais de {data.user.name}
-          </Text>
-          <PostList data={data.userPosts} />
-        </section>
-
-        {/* Comments section*/}
-        <section style={{ display: "grid", gap: "1rem" }}>
-          <Text as="h4">Comentários ({data.comments.length})</Text>
-
-          {/* Comments Lists */}
-          <div style={{ display: "grid", gap: "1.5rem", marginBottom: "2rem" }}>
-            {/* Comment component */}
-            {data.comments.map((comment) => (
-              <div key={comment.id} style={{ display: "grid", gap: ".5rem" }}>
-                {/* Infos */}
-                <div style={{ display: "grid", gap: "0" }}>
-                  <Text as="strong" capitalize>
-                    {comment.name}
-                  </Text>
-                  <Text as="small" variant="sm" color="gray">
-                    {comment.email}
-                  </Text>
-                </div>
-
-                {/* comment body */}
-                <Text>{comment.body}</Text>
-              </div>
-            ))}
-          </div>
-        </section>
+        <Section title={`Comentários (${data.comments.length})`} marginB>
+          <CommentList comments={data.comments} />
+        </Section>
       </MainContainer>
 
       <Footer />

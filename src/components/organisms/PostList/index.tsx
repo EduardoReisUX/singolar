@@ -2,7 +2,7 @@ import { PostCard } from "../../molecules/PostCard"
 import { PostListContainer } from "./index.styles"
 
 type PostListProps = {
-  data: {
+  posts: {
     id: number
     title: string
     body: string
@@ -14,7 +14,7 @@ type PostListProps = {
   }[]
 }
 
-export function PostList({ data }: PostListProps) {
+export function PostList({ posts: data }: PostListProps) {
   return (
     <PostListContainer>
       {data.map((data) => (
